@@ -17,4 +17,4 @@ jobs:
 
     - name: Build / Test
       run: | 
-          dotnet test "--logger:junit;LogFilePath=./test-reports/results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="coverage.xml" /p:Thereshold=80
+        dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput="../coverage.xml" -p:Thereshold=80
