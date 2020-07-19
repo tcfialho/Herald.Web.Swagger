@@ -17,4 +17,11 @@ jobs:
 
     - name: Build / Test
       run: | 
-          dotnet test "--logger:junit;LogFilePath=./test-reports/results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="coverage.xml" /p:Thereshold=80
+        dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput="../coverage.xml" -p:Thereshold=80
+
+    - name: Publish Coverage
+      run: | 
+        curl -s https://codecov.io/bash > codecov
+        chmod +x codecov
+        find . -name "coverage.xml" -print -quit | xargs -i bash -c "cp {} coverage.xml;"
+        ./codecov -f "coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}
