@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
-
-using Swashbuckle.AspNetCore.Swagger;
-
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Herald.Web.Swagger
@@ -26,6 +26,23 @@ namespace Herald.Web.Swagger
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
+            return services.AddSwagger(new SwaggerOptions() { Servers = Enumerable.Empty<string>() });
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerOptions options)
+        {
+            return services.AddSwagger(configure =>
+            {
+                options.CopyTo(configure);
+            });
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services, Action<SwaggerOptions> configure)
+        {
+            services.Configure(configure);
+            var options = new SwaggerOptions();
+            configure?.Invoke(options);
+
             services.AddSwaggerGen(setup =>
             {
                 var xmlDocsFileName = $"{PlatformServices.Default.Application.ApplicationName}.xml";
@@ -34,6 +51,11 @@ namespace Herald.Web.Swagger
                 if (File.Exists(xmlDocsFullPath))
                 {
                     setup.IncludeXmlComments(xmlDocsFileName, true);
+                }
+
+                foreach (var server in options.Servers)
+                {
+                    setup.AddServer(new OpenApiServer() { Url = server });
                 }
 
                 setup.SwaggerDoc(_assemblyVersion, new OpenApiInfo
@@ -57,10 +79,7 @@ namespace Herald.Web.Swagger
 
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
         {
-            app.UseMiddleware<SwaggerMiddleware>(new object[1]
-            {
-                new SwaggerOptions()
-            });
+            app.UseSwagger(c => { });
 
             app.UseSwaggerUI(setup =>
             {
