@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,6 +57,8 @@ namespace Herald.Web.Swagger
                 {
                     setup.AddServer(new OpenApiServer() { Url = server });
                 }
+
+                setup.OperationFilterDescriptors = options.OperationFilterDescriptors;
 
                 setup.SwaggerDoc(_assemblyVersion, new OpenApiInfo
                 {
