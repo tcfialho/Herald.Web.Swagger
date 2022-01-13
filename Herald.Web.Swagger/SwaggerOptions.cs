@@ -6,8 +6,14 @@ namespace Herald.Web.Swagger
 {
     public class SwaggerOptions
     {
-        internal List<FilterDescriptor> OperationFilterDescriptors { get; }
         public IEnumerable<string> Servers { get; set; }
+
+        internal List<FilterDescriptor> OperationFilterDescriptors { get; set; } 
+
+        public SwaggerOptions()
+        {
+            OperationFilterDescriptors = new List<FilterDescriptor>();
+        }
 
         public void OperationFilter<TFilter>(params object[] arguments) where TFilter : IOperationFilter
         {
