@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Herald.ModelBinder.Swagger" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Herald.Web.Swagger\Herald.Web.Swagger.csproj" />
   </ItemGroup>
 
