@@ -53,9 +53,12 @@ namespace Herald.Web.Swagger
                     setup.IncludeXmlComments(xmlDocsFileName, true);
                 }
 
-                foreach (var server in options.Servers)
+                if (options.Servers != null)
                 {
-                    setup.AddServer(new OpenApiServer() { Url = server });
+                    foreach (var server in options.Servers)
+                    {
+                        setup.AddServer(new OpenApiServer() { Url = server });
+                    }
                 }
 
                 setup.OperationFilterDescriptors = options.OperationFilterDescriptors;

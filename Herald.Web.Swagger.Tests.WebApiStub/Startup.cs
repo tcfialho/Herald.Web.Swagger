@@ -1,4 +1,6 @@
 
+using Herald.ModelBinder.Swagger;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +21,11 @@ namespace Herald.Web.Swagger.Tests.WebApiStub
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwagger();
+            services.AddSwagger(o =>
+            {
+                o.OperationFilter<FromRouteAndBodyModelOperationFilter>();
+                o.OperationFilter<FromRouteAndQueryModelOperationFilter>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
