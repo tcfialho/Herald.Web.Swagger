@@ -35,7 +35,7 @@ namespace Herald.Web.Swagger.Tests
             var client = _factory.CreateClient();
 
             //
-            var response = await client.GetAsync("1/swagger/v1.0.0.0/swagger.json");
+            var response = await client.GetAsync("/swagger/v15.0.0.0/swagger.json");
 
             // Assert            
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
