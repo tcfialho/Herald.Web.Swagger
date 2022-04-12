@@ -17,7 +17,7 @@ namespace Herald.Web.Swagger
 
         static Configurations()
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
             _assemblyName = assemblyName.Name;
